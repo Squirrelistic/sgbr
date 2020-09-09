@@ -60,7 +60,11 @@ namespace SGBR
 
         static async Task<int> Main(string[] args)
         {
-            return await new Parser(with => with.CaseInsensitiveEnumValues = true)
+            return await new Parser(config =>
+            {
+                config.CaseInsensitiveEnumValues = true;
+                config.HelpWriter = Console.Error;
+            })
                    .ParseArguments<ReduceNgramOptions, SaveToSqlOptions>(args)
                    .MapResult(
                         (ReduceNgramOptions opts) => ReduceNgramAsync(opts),
