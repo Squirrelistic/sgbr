@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>SGBR</RootNamespace>
+	<PackageId>SGBR</PackageId>
+	<Authors>Andrzej Jakuszyk</Authors>
+	<Company>Squirrelistic Ltd</Company>
+	<Copyright>Copyright (C) Squirrelistic Ltd</Copyright>
+	<PackageProjectUrl>https://github.com/Squirrelistic/sgbr</PackageProjectUrl>
+	<Product>Squirrelistic Google Books Reducer</Product>
+	<Description>Reduces Google Books Files (Version 20200217) published by Google at https://storage.googleapis.com/books/ngrams/books/datasetsv3.html</Description>
+	<SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\squirrel.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "sgbr": {
+      "commandName": "Project",
+      "commandLineArgs": "reduce -i \"TestData\\squirrel.gz\" -o \"TestData\\squirrel.gz.reduced.gz\" -p 5 -g Debug"
+    }
+  }
+}
