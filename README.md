@@ -1,17 +1,17 @@
 # Squirrelistic Google Books Reducer #
 
-## TLDR ##
+## TL;DR ##
 
-Reduces the size of Google Books statistics by aggregating the years data and filtering the garbage.
+Reduces the size of Google Books statistics by aggregating 'per year' data and filtering out the garbage.<br/>
 Saves data to SQL Server database directly from compressed gzip files.
 
 ## Overview ##
 
-Google scanned a lot of books and shared the resulting statistics files.
-They are not evil after all.
-The latest dataset from year 2020 is [available here](http://storage.googleapis.com/books/ngrams/books/datasetsv3.html])
+Google scanned a lot of books and shared the resulting statistics files.<br/>
+They are not evil after all.<br/>
+The latest dataset from year 2020 is [available here](http://storage.googleapis.com/books/ngrams/books/datasetsv3.html]).
 
-The problem is that the dataset is humongous, especially for English language.
+The problem is that the dataset is humongous, especially for English language.<br/>
 The table below describes humongousness of the data (version 20200217).
 
 |Language   |File Count 1|Length 1 GB|File Count 2|Length 2 GB|File Count 3|Length 3 GB|File Count 4|Length 4 GB|File Count 5|Length 5 GB|File Count Sum|Length Sum GB|
@@ -38,15 +38,15 @@ For example:
 - if you were to obtain 5-gram (5 words combination) data statistics for Spanish (spa row), you would have to download 1415 files (File Count 5) and it would consume 786.8 GB of disk space (Length 5 GB)
 - if you were to feel sudden rush to hoard all the 2020 data for all the languages, you would have to download 78361 files (File Count Sum) and it would consume 37 TB of disk space (Length Sum GB). Good luck with that.
 
-And this is just the space for compressed gzip files, which are useless unless you uncompress them and put them into database.
-The unpacked files would consume ~4 times more space, database might shrink down the numerical data, so let's say your full English dataset database would take 20-25 TB of data.
+And this is just the space for compressed gzip files, which are useless unless you uncompress them and put them into database.<br/>
+The unpacked files would consume ~4 times more space, database might shrink down the numerical data, so let's say your full English dataset database would take 20-25 TB of data.<br/>
 
-A lot of space and CPU is needed. And not everyone has a 40TB Hadoop cluster under his/her desk.
-That is where Squirrelistic Google Books Reducer (SGBR) comes to alleviate the pain.
+A lot of space and CPU is needed. And not everyone has a 40TB Hadoop cluster under his/her desk.<br/>
+That is where Squirrelistic Google Books Reducer (SGBR) comes to alleviate the pain.<br/>
 
 ## How does the SGBR reduction work? ##
 
-The SGBR works with Google books files version 20200217 only.
+The SGBR works with Google books files version 20200217 only.<br/>
 Typical source data row looks like this (but longer with more years included):
 
 **Happy_ADJ Squirrel_NOUN  1816,1,1  1970,3,2  1971,11,8  1972,1,1  1973,2,1  1998,6,2**
@@ -60,14 +60,14 @@ The reduced row looks like this:
 
 **Happy Squirrel	JN	24	15	1816	1998	6	1971	11**
 
-Ngram: Happy Squirrel
-Tags: JN (Adjective Noun) - see *[sgbr\Model\WordTag.cs](sgbr\Model\WordTag.cs)* for a complete list of tag letters.<br/>
-Match Count: 24 - number of times phrase was found in books (all years).
-Volume Count: 15 - number of books phrase was found in.
-First Year: 1816 - first year the phrase was found in book.
-Last Year: 1998 - last year the phrase was found in book.
-Year Count: 6 - number of years.
-Top Year: 1971 - first year where the phrase had the biggest number of matches.
+Ngram: Happy Squirrel<br/>
+Tags: JN (Adjective Noun) - see *[sgbr/Model/WordTag.cs](sgbr/Model/WordTag.cs)* for a complete list of tag letters.<br/>
+Match Count: 24 - number of times phrase was found in books (all years).<br/>
+Volume Count: 15 - number of books phrase was found in.<br/>
+First Year: 1816 - first year the phrase was found in book.<br/>
+Last Year: 1998 - last year the phrase was found in book.<br/>
+Year Count: 6 - number of years.<br/>
+Top Year: 1971 - first year where the phrase had the biggest number of matches.<br/>
 Top Year Match Count: 6 number of times phrase was found in books in Top Year (1971 in this example).
 
 The reducer takes *.gz file or URL as an input and save reduced *.gz file.
@@ -106,9 +106,9 @@ Reduce further with filters (input file can be in original Google format or alre
 sgbr reduce -i "C:\Stats\1-00005-of-00024.reduced.gz" -o "C:\Stats\1-00005-of-00024.reduced-more.gz" --length-filter 10 --tag-filter AN --no-letters-filter
 ```
 
---length-filter 10 ==> remove lines where any word in ngram has length longer than 10 characters
---tag-filter AN ==> remove lines with specific tags from the output (AN = Adverb Noun)
---no-letters-filter ==> remove lines where any word has no letters (e.g. all numbers)
+--length-filter 10 ==> remove lines where any word in ngram has length longer than 10 characters<br/>
+--tag-filter AN ==> remove lines with specific tags from the output (AN = Adverb Noun)<br/>
+--no-letters-filter ==> remove lines where any word has no letters (e.g. all numbers)<br/>
 
 Note:
 - you can reduce with data from an URL, but it is better to keep unfiltered files and filter in next stage (in case some filtered data are needed after all).
@@ -155,8 +155,8 @@ The is faster than importing each file separately because with each run the SGBR
 
 ### Speeding it up ###
 
-SGBR uses main thread for data reading/download, separate thread for processing, and separate thread for saving data to output or database.
-You can customise number of processing threads using -p flag e.g. 
+SGBR uses main thread for data reading/download, separate thread for processing, and separate thread for saving data to output or database.<br/>
+You can customise number of processing threads using -p flag e.g.
 
 ```Shell
 sgbr reduce -i "C:\Stats\1-00005-of-00024.gz" -o "C:\Stats\1-00005-of-00024.reduced.gz" -p 5
@@ -176,4 +176,13 @@ Use "--log-level Debug" flag.
 
 ```Shell
 sgbr reduce -i "C:\Stats\1-00005-of-00024.gz" -o "C:\Stats\1-00005-of-00024.reduced.gz" --log-level Debug
+```
+
+### How to build this thing? ###
+
+```Shell
+cd C:\Projects\sgbr\sgbr
+dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
+dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
+dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
 ```
