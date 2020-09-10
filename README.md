@@ -2,8 +2,12 @@
 
 ## TL;DR ##
 
-Reduces the size of Google Books statistics by aggregating 'per year' data and filtering out the garbage.<br/>
+Reduces the size of [Google Books Ngram](https://books.google.com/ngrams) statistics by aggregating 'per year' data and filtering out the garbage.<br/>
 Saves data to SQL Server database directly from compressed gzip files.
+
+## Disclaimer ##
+
+Squirrelistic Ltd is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Google™, or any of its subsidiaries or its affiliates.
 
 ## Overview ##
 
