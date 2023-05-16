@@ -13,7 +13,7 @@ Squirrelistic Ltd is not affiliated, associated, authorized, endorsed by, or in 
 
 Google scanned a lot of books and shared the resulting statistics files.<br/>
 They are not evil after all.<br/>
-The latest dataset from year 2020 is [available here](http://storage.googleapis.com/books/ngrams/books/datasetsv3.html]).
+The latest dataset from year 2020 is [available here](http://storage.googleapis.com/books/ngrams/books/datasetsv3.html).
 
 The problem is that the dataset is humongous, especially for English language.<br/>
 The table below describes humongousness of the data (version 20200217).

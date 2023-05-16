@@ -39,8 +39,8 @@ namespace SGBR
         {
             if (_isDisposed) throw new Exception($"{GetType().Name} object already disposed");
 
-            ThrowExceptionIfWriteToFileTaskFailed();
-            _statsQueue.Add(stats);
+            do ThrowExceptionIfWriteToFileTaskFailed();
+            while (!_statsQueue.TryAdd(stats, 1000));
         }
 
         public void EndStatsProcessing()
@@ -94,11 +94,14 @@ namespace SGBR
 
         public void Dispose()
         {
-            _isDisposed = true;
-            EndStatsProcessing();
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                EndStatsProcessing();
 
-            _statsQueue = null;
-            _writeToFileTask = null;
+                _statsQueue = null;
+                _writeToFileTask = null;
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ namespace SGBR
     public class NgramParser
     {
         private readonly Regex _wordTagRegex, _soloTagRegex;
+
         private readonly Dictionary<string, WordTag> _googleTag2Char = new Dictionary<string, WordTag>()
             {
                 { "NOUN", WordTag.Noun },
@@ -53,7 +54,7 @@ namespace SGBR
 
                 var year = int.Parse(yearData[0]);
                 var matchCount = long.Parse(yearData[1]);
-                var volumeCount = long.Parse(yearData[2]);
+                var volumeCount = int.Parse(yearData[2]);
 
                 ngramTsvStats.Add(year, matchCount, volumeCount);
             }

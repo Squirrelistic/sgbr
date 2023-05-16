@@ -24,7 +24,7 @@ namespace SGBR.Model
         public string[] Ngram { get; private set; }
         public WordTag[] Tags { get; private set; }
         public long MatchCount { get; set; }
-        public long VolumeCount { get; set; }
+        public int VolumeCount { get; set; }
         public int FirstYear { get; set; }
         public int LastYear { get; set; }
         public int YearCount { get; set; }
@@ -37,7 +37,7 @@ namespace SGBR.Model
             Tags = tags;
         }
 
-        public void Add(int year, long matchCount, long volumeCount)
+        public void Add(int year, long matchCount, int volumeCount)
         {
             MatchCount += matchCount;
             VolumeCount += volumeCount;
@@ -65,7 +65,7 @@ namespace SGBR.Model
             return new NgramTsvStats(splitLine[0].Split(NgramSeparator), WordTagUtils.StringToTags(splitLine[1]))
             {
                 MatchCount = long.Parse(splitLine[2]),
-                VolumeCount = long.Parse(splitLine[3]),
+                VolumeCount = int.Parse(splitLine[3]),
                 FirstYear = int.Parse(splitLine[4]),
                 LastYear = int.Parse(splitLine[5]),
                 YearCount = int.Parse(splitLine[6]),

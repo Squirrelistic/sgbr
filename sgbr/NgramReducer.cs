@@ -1,10 +1,10 @@
-﻿using SGBR.Model;
+﻿using Serilog;
 using SGBR.Filters;
+using SGBR.Model;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Serilog;
 
 namespace SGBR
 {
@@ -53,9 +53,8 @@ namespace SGBR
             }
 
             // throw exception if any task fails, otherwise the queues will fill up, block, and cause deadlock
-            ThrowExceptionIfProcessingTaskFailed();
-
-            _linesQueue.Add(line);
+            do ThrowExceptionIfProcessingTaskFailed();
+            while (!_linesQueue.TryAdd(line, 1000));
 
             if (_linesRead % VerboseMessageEveryInputLine == 0)
                 _log.Verbose($"{_linesRead} lines read");

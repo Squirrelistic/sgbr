@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SGBR
 {
-    class GoogleBooksReducer
+    internal class GoogleBooksReducer
     {
         public class CommonNgramOptions
         {
@@ -58,7 +58,7 @@ namespace SGBR
             public string StatsTablePrefix { get; set; } = "Ngram";
         }
 
-        static async Task<int> Main(string[] args)
+        private static async Task<int> Main(string[] args)
         {
             return await new Parser(config =>
             {
