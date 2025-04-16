@@ -2,17 +2,20 @@ name: sgbr
 
 on:
   push:
-    branches: [ "main", "upgrade-to-dotnet9" ]
   pull_request:
-    branches: [ "main" ]
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.yml'
+      - '**.sln'
 
 env:
   DOTNET_VERSION: '9.0.x'
 
 jobs:
   build:
-    name: Build
-    runs-on: windows-latest
+    name: Build & Test
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -24,7 +27,7 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: .NET Tests
+    - name: Build & Test
       run: dotnet test --logger "trx;LogFileName=test-results.trx" --configuration Release
       working-directory: sgbr.tests
 
