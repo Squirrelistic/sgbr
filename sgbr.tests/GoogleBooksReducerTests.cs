@@ -1,10 +1,10 @@
 using NUnit.Framework;
-using SGBR.Model;
+using Serilog;
 using SGBR.Filters;
+using SGBR.Model;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Serilog;
-using System.Collections.Generic;
 
 namespace SGBR.Tests
 {
@@ -18,7 +18,7 @@ namespace SGBR.Tests
 
             var output = ProcessNgramInput(input);
 
-            Assert.AreEqual(expectedOutput, output[0]);
+            Assert.That(expectedOutput == output[0]);
         }
 
         [Test]
@@ -30,20 +30,20 @@ namespace SGBR.Tests
 
             var output = ProcessNgramInput(input);
 
-            Assert.AreEqual(expectedOutput, output[0]);
+            Assert.That(expectedOutput == output[0]);
         }
 
         [Test]
         public void EmptyPostfixTagsAreNotProcessed()
         {
-            // tags without words need _TAG_ form (not _TAG) - only _START_ tag is valid 
+            // tags without words need _TAG_ form (not _TAG) - only _START_ tag is valid
             var input = "_ADJ _NOUN _START_ _END\t1930,1,2";
             // postfix tags not attached to the end of the word should be treated as words not tags
             var expectedOutput = "_ADJ _NOUN  _END\t__S_\t1\t2\t1930\t1930\t1\t1930\t1";
 
             var output = ProcessNgramInput(input);
 
-            Assert.AreEqual(expectedOutput, output[0]);
+            Assert.That(expectedOutput == output[0]);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace SGBR.Tests
 
             var output = ProcessNgramInput(input);
 
-            Assert.AreEqual(expectedOutput, output[0]);
+            Assert.That(expectedOutput == output[0]);
         }
 
         [Test]
@@ -77,8 +77,8 @@ namespace SGBR.Tests
             var output = ProcessNgramInput(input, filters);
 
             // 1 line expected = second data row (first should be filtered)
-            Assert.AreEqual(1, output.Count);
-            Assert.AreEqual(expectedOutput, output[0]);
+            Assert.That(1 == output.Count);
+            Assert.That(expectedOutput == output[0]);
         }
 
         [Test]
@@ -96,8 +96,8 @@ namespace SGBR.Tests
             var output = ProcessNgramInput(input, filters);
 
             // 1 line expected = second data row (first should be filtered as 'World' word is longer than 4 characters)
-            Assert.AreEqual(1, output.Count);
-            Assert.AreEqual(expectedOutput, output[0]);
+            Assert.That(1 == output.Count);
+            Assert.That(expectedOutput == output[0]);
         }
 
         [Test]
@@ -115,8 +115,8 @@ namespace SGBR.Tests
             var output = ProcessNgramInput(input, filters);
 
             // 1 line expected = first data row (second should be filtered as '2000!_+' word has no letters)
-            Assert.AreEqual(1, output.Count);
-            Assert.AreEqual(expectedOutput, output[0]);
+            Assert.That(1 == output.Count);
+            Assert.That(expectedOutput == output[0]);
         }
 
         private List<string> ProcessNgramInput(string input, INgramFilter[] filters = null)
