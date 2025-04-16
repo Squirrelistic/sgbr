@@ -171,7 +171,7 @@ On 8-core CPU this reduced the processing time from 1 minute to around 25 second
 You can use the same flag for SQL import:
 
 ```Shell
-sgbr save-to-sql -d "C:\Stats1files" -c "Server=.;Database=GoogleNgrams;Integrated Security=true;" -p 5
+sgbr save-to-sql -d "C:\Stats1files" -c "Server=.;Database=GoogleNgrams;Integrated Security=true;TrustServerCertificate=true" -p 5
 ```
 
 ### Troubleshooting ###
@@ -186,7 +186,7 @@ sgbr reduce -i "C:\Stats\1-00005-of-00024.gz" -o "C:\Stats\1-00005-of-00024.redu
 
 ```Shell
 cd C:\Projects\sgbr\sgbr
-dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
-dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
-dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
+dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=false /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
+dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=false /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
+dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=false /p:DebugType=None /p:Version=1.0.0 sgbr.csproj
 ```
