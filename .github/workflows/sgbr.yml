@@ -33,6 +33,6 @@ jobs:
       if: success() || failure()
       with:
         name: .NET Tests
-        path: "sgbr.tests/test-results.trx"
+        path: "sgbr.tests/TestResults/test-results.trx"
         reporter: dotnet-trx
         fail-on-error: true
